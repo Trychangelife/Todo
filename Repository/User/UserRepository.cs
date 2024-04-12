@@ -47,17 +47,17 @@ namespace Todo.Repository.User
             return user;
         }
 
-        //public async Task<bool> DeleteTaskById(int id)
-        //{
-        //    var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id);
-        //    if (task != null)
-        //    {
-        //        _context.Tasks.Remove(task);
-        //        await _context.SaveChangesAsync();
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        public async Task<bool> DeleteUserById(int id)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(t => t.Id == id);
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
         public async Task<bool> UpdateUserById(UserEntity user)
         {
             using (var transaction = _context.Database.BeginTransaction())

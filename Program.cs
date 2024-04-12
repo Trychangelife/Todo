@@ -18,6 +18,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<BasicAuthFilter>();
 builder.Services.AddScoped<CheckTaskAuthorizationAttribute>();
+builder.Services.AddScoped<SuperAdminFilter>();
 
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

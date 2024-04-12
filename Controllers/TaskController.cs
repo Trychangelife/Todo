@@ -41,7 +41,7 @@ namespace Todo.Controllers
             var authenticatedUser = HttpContext.Items["AuthenticatedUser"] as AuthenticatedUser;
 
             // Получение задачи
-            var result = await _taskService.GetTaskById(taskId, authenticatedUser.UserId);
+            var result = await _taskService.GetTaskById(taskId);
 
             // Проверка наличия задачи
             if (result == null)
@@ -88,7 +88,7 @@ namespace Todo.Controllers
         [HttpDelete("{taskId}")]
         [ServiceFilter(typeof(BasicAuthFilter))]
         [ServiceFilter(typeof(CheckTaskAuthorizationAttribute))]
-        public async Task<IActionResult> DeleteTaskById(int taskId)
+        public async Task<ActionResult<TaskApp>> DeleteTaskById(int taskId)
         {
             bool result = await _taskService.DeleteTaskById(taskId);
             if (result)
@@ -103,7 +103,8 @@ namespace Todo.Controllers
 
         [HttpPut("{taskId}")]
         [ServiceFilter(typeof(BasicAuthFilter))]
-        public async Task<IActionResult> UpdateTaskById(int taskId, [FromBody] TaskUpdateModel taskUpdateModel)
+        [ServiceFilter(typeof(CheckTaskAuthorizationAttribute))]
+        public async Task<ActionResult<TaskApp>>  UpdateTaskById(int taskId, [FromBody] TaskUpdateModel taskUpdateModel)
         {
             var authenticatedUser = HttpContext.Items["AuthenticatedUser"] as AuthenticatedUser;
             Console.WriteLine(taskUpdateModel);

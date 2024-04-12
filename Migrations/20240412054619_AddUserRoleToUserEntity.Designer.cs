@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Todo.Models;
 
@@ -11,9 +12,11 @@ using Todo.Models;
 namespace Todo.Migrations
 {
     [DbContext(typeof(TodoListContext))]
-    partial class TodoListContextModelSnapshot : ModelSnapshot
+    [Migration("20240412054619_AddUserRoleToUserEntity")]
+    partial class AddUserRoleToUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

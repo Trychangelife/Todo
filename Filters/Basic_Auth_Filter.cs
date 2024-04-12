@@ -43,6 +43,7 @@ public class BasicAuthFilter : IAsyncAuthorizationFilter
         {
             UserId = user.Id,
             Login = user.Login,
+            UserRole = user.UserRole
             // Другие свойства пользователя, которые вам нужны
         };
 

@@ -17,6 +17,7 @@ public class CheckTaskAuthorizationAttribute : ActionFilterAttribute
 
         if (context.ActionDescriptor is ControllerActionDescriptor controllerActionDescriptor)
         {
+            //Task<ActionResult<TaskApp>> - Если метод контроллера возвращает данный тип, то он попадает под это условие, как следствие идет проверка на право управлять Task.
             if (controllerActionDescriptor.MethodInfo.ReturnType == typeof(Task<ActionResult<TaskApp>>))
             {
                 // Это запрос на одну задачу

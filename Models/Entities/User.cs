@@ -26,5 +26,7 @@ namespace Todo.Models.Entities
         [Required]
         [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; }
+
+        public string UserRole {  get; set; }
     }
 }

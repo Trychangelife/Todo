@@ -20,7 +20,9 @@ namespace Todo.Controllers
         }
         // GET: User/{id}
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        [ServiceFilter(typeof(BasicAuthFilter))]
+        [ServiceFilter(typeof(SuperAdminFilter))]
+        public async Task<ActionResult<UserEntity>> GetUserById(int id)
         {
             _logger.LogInformation("About page visited at {DT}",
             DateTime.UtcNow.ToLongTimeString());
@@ -38,7 +40,6 @@ namespace Todo.Controllers
         }
 
         // POST: User/Create
-
         [HttpPost("create")]
         public async Task<IActionResult> СreateUser([FromBody] UserEntity user)
         {
@@ -63,7 +64,9 @@ namespace Todo.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUserById(int id, [FromBody] UserEntity userUpdate)
+        [ServiceFilter(typeof(BasicAuthFilter))]
+        [ServiceFilter(typeof(SuperAdminFilter))]
+        public async Task<ActionResult<UserEntity>> UpdateUserById(int id, [FromBody] UserEntity userUpdate)
         {
             Console.WriteLine(userUpdate);
             var result = await _userService.UpdateUserById(id, userUpdate);
@@ -76,5 +79,21 @@ namespace Todo.Controllers
                 return NotFound(result.ErrorMessage);
             }
         }
+        [HttpDelete("{id}")]
+        [ServiceFilter(typeof(BasicAuthFilter))]
+        [ServiceFilter(typeof(SuperAdminFilter))]
+        public async Task<ActionResult<UserEntity>> DeleteUserById(int id)
+        {
+            var result = await _userService.DeleteUserById(id);
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
     }
 }

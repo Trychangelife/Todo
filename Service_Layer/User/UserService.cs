@@ -61,6 +61,7 @@ namespace Todo.Service_Layer.User
                 user.Login = user.Login?.Trim();
                 user.CreatedAt = DateTime.Parse(formattedDateTime);
                 user.Email = user.Email?.Trim();
+                user.UserRole = "DefaultUser";
 
                 bool result = await _userRepository.CreateUser(user);
                 return result;
@@ -102,6 +103,10 @@ namespace Todo.Service_Layer.User
                 result.ErrorMessage = ex.Message;
                 return result;
             }
+        }
+        public async Task<bool> DeleteUserById(int id)
+        {
+            return await _userRepository.DeleteUserById(id);
         }
 
     }
