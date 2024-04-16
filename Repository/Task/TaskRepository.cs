@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Text.Json;
 using Todo.Models;
 using Todo.Models.Entities;
 
@@ -14,13 +15,48 @@ namespace Todo.Repository.Task
             _context = context;
         }
 
-        public async Task<TaskApp[]> GetAllTask(int userId)
+        public async Task<TaskApp[]> GetAllTask(int userId, string sortBy = null, string sortOrder = null, string searchNameTerm = null)
         {
-            var result = await _context.Tasks
-                .Where(task => task.Author == userId)
-                .ToArrayAsync();
+            sortBy = sortBy?.ToLower(); // Приведение sortBy к нижнему регистру
+            sortOrder = sortOrder?.ToLower(); // Приведение sortOrder к нижнему регистру
 
-            return result;
+            IQueryable<TaskApp> query = _context.Tasks.Where(task => task.Author == userId);
+            if (!string.IsNullOrEmpty(searchNameTerm))
+            {
+                // Пример: поиск по названию задачи или описанию
+                query = query.Where(task => task.Status.Contains(searchNameTerm) || task.Priority.Contains(searchNameTerm));
+            }
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy)
+                {
+                    case "priority":
+                        if (sortOrder == "desc")
+                            query = query.OrderByDescending(task => task.Priority);
+                        else
+                            query = query.OrderBy(task => task.Priority);
+                        break;
+                    case "status":
+                        if (sortOrder == "desc")
+                            query = query.OrderByDescending(task => task.Status);
+                        else
+                            query = query.OrderBy(task => task.Status);
+                        break;
+                    case "created":
+                        if (sortOrder == "desc")
+                            query = query.OrderByDescending(task => task.Created);
+                        else
+                            query = query.OrderBy(task => task.Created);
+                        break;
+                    default:
+                        // Если sortBy имеет недопустимое значение, сортировать по умолчанию по приоритету
+                        query = query.OrderBy(task => task.Priority);
+                        break;
+                }
+            }
+
+            return await query.ToArrayAsync();
         }
         public async Task<TaskApp> GetTaskById(int TaskId, int userId = -1)
         {

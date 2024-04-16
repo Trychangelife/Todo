@@ -48,9 +48,9 @@ namespace Todo.Service_Layer.Task
             
         }
 
-        public async Task<TaskApp[]> GetAllTask(int userId)
+        public async Task<TaskApp[]> GetAllTask(int userId, string sortBy = null, string sortOrder = null, string searchNameTerm = null)
         {
-            TaskApp[] result = await _taskRepository.GetAllTask(userId);
+            TaskApp[] result = await _taskRepository.GetAllTask(userId, sortBy, sortOrder, searchNameTerm);
             return result;
         }
         public async Task<bool> DeleteTaskById(int id)

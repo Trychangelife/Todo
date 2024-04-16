@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Globalization;
 using Todo.Models;
 using Todo.Models.Entities;
 using Todo.Service_Layer.Task; // Импортируйте пространство имен вашей модели
@@ -25,11 +26,11 @@ namespace Todo.Controllers
         [HttpGet("")]
         [ServiceFilter(typeof(BasicAuthFilter))]
         [ServiceFilter(typeof(CheckTaskAuthorizationAttribute))]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(string sortOrder, string sortBy = "priority", string searchNameTerm = null)
         {
             var authenticatedUser = HttpContext.Items["AuthenticatedUser"] as AuthenticatedUser;
-
-            TaskApp[] result = await _taskService.GetAllTask(authenticatedUser.UserId);
+            TaskApp[] result;
+            result = await _taskService.GetAllTask(authenticatedUser.UserId, sortBy, sortOrder, searchNameTerm);
             return Json(result);
         }
 
