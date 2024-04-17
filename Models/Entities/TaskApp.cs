@@ -13,14 +13,13 @@ namespace Todo.Models.Entities
         public int Id { get; set; }
 
         [Required]
-        [StringLength(25, ErrorMessage = "Title lenght should be <= 25", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Title lenght should be <= 50", MinimumLength = 3)]
         [Column(TypeName = "varchar(255)")]
         public string Title { get; set; }
 
-        [EnumValueValidation(typeof(Status), ErrorMessage = "Invalid status value.")]
-        [Required]
+        //[EnumValueValidation(typeof(Status), ErrorMessage = "Invalid status value.")]
         //[JsonConverter(typeof(JsonStringEnumConverter))] // Сериализация в формат JSON
-        public  string Status { get; set; }
+        public  string? Status { get; set; }
         [ForeignKey("User")]
         [JsonIgnore] // Игнорирование при сериализации, скрываем из выдачи пользователю поле.
         [Required]
@@ -37,5 +36,7 @@ namespace Todo.Models.Entities
         public string? Description { get; set; }
 
         public DateTime? Created { get; set; }
+
+        public DateTime? LastUpdated { get; set;}
     }
 }

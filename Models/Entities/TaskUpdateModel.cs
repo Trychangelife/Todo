@@ -8,7 +8,7 @@ namespace Todo.Models.Entities
     public class TaskUpdateModel
     {
         [Required]
-        [StringLength(25, ErrorMessage = "Title lenght should be <= 25", MinimumLength = 3)]
+        [StringLength(50, ErrorMessage = "Title lenght should be <= 50", MinimumLength = 3)]
         public string Title { get; set; }
 
         [EnumValueValidation(typeof(Priority), ErrorMessage = "Invalid priority value.")]

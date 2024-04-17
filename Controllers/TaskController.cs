@@ -26,7 +26,7 @@ namespace Todo.Controllers
         [HttpGet("")]
         [ServiceFilter(typeof(BasicAuthFilter))]
         [ServiceFilter(typeof(CheckTaskAuthorizationAttribute))]
-        public async Task<IActionResult> All(string sortOrder, string sortBy = "priority", string searchNameTerm = null)
+        public async Task<IActionResult> All(string sortOrder = "asc", string sortBy = "priority", string searchNameTerm = null)
         {
             var authenticatedUser = HttpContext.Items["AuthenticatedUser"] as AuthenticatedUser;
             TaskApp[] result;
@@ -59,13 +59,10 @@ namespace Todo.Controllers
         // POST: Task/Create
         [HttpPost("create")]
         [ServiceFilter(typeof(BasicAuthFilter))]
-        public async Task<IActionResult> СreateTask([FromBody] TaskApp task)
+        public async Task<IActionResult> CreateTask([FromBody] TaskApp task)
         {
             var authenticatedUser = HttpContext.Items["AuthenticatedUser"] as AuthenticatedUser;
-            if (task != null)
-            {
-                Console.WriteLine($"Received task: Title - {task.Title}, Status - {task.Status.ToString()}, UserId - {task.Author}, Priority - {task.Priority.ToString()}, Description - {task.Description}"); // Смотрим в консоли что приходит
-            }
+
             if (ModelState.IsValid)
             {
                 bool result = await _taskService.CreateTask(task, authenticatedUser.UserId);
@@ -75,13 +72,11 @@ namespace Todo.Controllers
                     var createdTask = await _taskService.GetTaskById(task.Id, authenticatedUser.UserId);
                     // Возвращаем созданную задачу в формате JSON
                     return Json(createdTask);
-
                 }
                 else
                 {
                     return BadRequest("Не удалось добавить задачу");
                 }
-                
             }
             return BadRequest("Отправленные Вами данные не соответствуют ожидаемой модели");
         }
@@ -108,7 +103,6 @@ namespace Todo.Controllers
         public async Task<ActionResult<TaskApp>>  UpdateTaskById(int taskId, [FromBody] TaskUpdateModel taskUpdateModel)
         {
             var authenticatedUser = HttpContext.Items["AuthenticatedUser"] as AuthenticatedUser;
-            Console.WriteLine(taskUpdateModel);
             var result = await _taskService.UpdateTaskById(taskId, taskUpdateModel, authenticatedUser.UserId);
             if (result.Success)
             {

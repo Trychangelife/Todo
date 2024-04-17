@@ -37,6 +37,7 @@ namespace Todo.Service_Layer.Task
                 task.Description = task.Description?.Trim();
                 task.Created = DateTime.Parse(formattedDateTime);
                 task.Author = UserId;
+                task.Status = "Open";
 
                 bool result = await _taskRepository.CreateTask(task);
                 return result;
@@ -70,10 +71,14 @@ namespace Todo.Service_Layer.Task
                 return result;
             }
 
+            DateTime now = DateTime.Now;
+            string formattedDateTime = now.ToString("yyyy-MM-dd HH:mm:ss");
+
             task.Title = taskUpdateModel.Title?.Trim();
             task.Priority = taskUpdateModel.Priority.ToString();
             task.Status = taskUpdateModel.Status.ToString();
             task.Description = taskUpdateModel.Description?.Trim();
+            task.LastUpdated = DateTime.Parse(formattedDateTime);
 
             try
             {
