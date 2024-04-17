@@ -6,7 +6,7 @@ using Todo.Models.Entities;
 
 namespace Todo.Repository.Task
 {
-    public class TaskRepository //: IRepository<TaskApp> В теории здесь можно сделать Interface для определения методов которые должны быть реализованы (под вопросом необходимость)
+    public class TaskRepository
     {
         private readonly TodoListContext _context; // Подключаем контекст из БД для возможности обращения к нему
 
@@ -76,7 +76,7 @@ namespace Todo.Repository.Task
             try
             {
                 _context.Tasks.Add(task);
-                await _context.SaveChangesAsync(); // Асинхронное сохранение изменений в базе данных вместо Await
+                await _context.SaveChangesAsync(); // Асинхронное сохранение изменений в базе данных
                 return true; // Успешно добавлено
             }
             catch (Exception ex)

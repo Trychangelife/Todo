@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Todo.Models.Entities;
-using Todo.Service_Layer.Task;
 using Todo.Service_Layer.User;
 
 namespace Todo.Controllers

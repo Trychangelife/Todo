@@ -5,7 +5,7 @@ using Todo.Models.Entities;
 
 namespace Todo.Repository.User
 {
-    public class UserRepository //: IRepository<TaskApp> В теории здесь можно сделать Interface для определения методов которые должны быть реализованы (под вопросом необходимость)
+    public class UserRepository
     {
         private readonly TodoListContext _context; // Подключаем контекст из БД для возможности обращения к нему
 
@@ -13,13 +13,6 @@ namespace Todo.Repository.User
         {
             _context = context;
         }
-
-        //public async Task<TaskApp[]> GetAllTask()
-        //{
-        //        var result = await _context.Tasks.ToArrayAsync();
-        //        //Console.WriteLine(result);
-        //        return result;
-        //}
         public async Task<UserEntity> GetUserById(int id)
         {
             var user = await _context.Users.FirstOrDefaultAsync(t => t.Id == id);
@@ -32,12 +25,12 @@ namespace Todo.Repository.User
             try
             {
                 _context.Users.Add(user);
-                await _context.SaveChangesAsync(); // Асинхронное сохранение изменений в базе данных вместо Await
+                await _context.SaveChangesAsync(); // Асинхронное сохранение изменений в базе данных
                 return true; // Успешно добавлено
             }
             catch (Exception ex)
             {
-                //Console.WriteLine($"Ошибка при добавлении : {ex.Message}");
+                Console.WriteLine($"Ошибка при добавлении : {ex.Message}");
                 return false; // Ошибка при добавлении
             }
         }

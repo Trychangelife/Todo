@@ -17,8 +17,6 @@ namespace Todo.Models.Entities
         [Column(TypeName = "varchar(255)")]
         public string Title { get; set; }
 
-        //[EnumValueValidation(typeof(Status), ErrorMessage = "Invalid status value.")]
-        //[JsonConverter(typeof(JsonStringEnumConverter))] // Сериализация в формат JSON
         public  string? Status { get; set; }
         [ForeignKey("User")]
         [JsonIgnore] // Игнорирование при сериализации, скрываем из выдачи пользователю поле.
@@ -27,7 +25,6 @@ namespace Todo.Models.Entities
 
         [EnumValueValidation(typeof(Priority), ErrorMessage = "Invalid priority value.")]
         [Required]
-        //[JsonConverter(typeof(JsonStringEnumConverter))] // Сериализация в формат JSON
         public string Priority { get; set; }
 
         [Column(TypeName = "varchar(255)")]

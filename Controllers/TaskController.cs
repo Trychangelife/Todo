@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Globalization;
-using Todo.Models;
 using Todo.Models.Entities;
-using Todo.Service_Layer.Task; // Импортируйте пространство имен вашей модели
+using Todo.Service_Layer.Task;
 
 namespace Todo.Controllers
 {
@@ -33,7 +29,7 @@ namespace Todo.Controllers
             result = await _taskService.GetAllTask(authenticatedUser.UserId, sortBy, sortOrder, searchNameTerm);
             return Json(result);
         }
-
+        // GET Task/{taskId}
         [HttpGet("{taskId}")]
         [ServiceFilter(typeof(BasicAuthFilter))]
         [ServiceFilter(typeof(CheckTaskAuthorizationAttribute))]
@@ -113,10 +109,5 @@ namespace Todo.Controllers
                 return NotFound(result.ErrorMessage);
             }
         }
-
-
-
-
-        // Другие методы для обработки запросов (PUT, DELETE и т.д.)
     }
 }
