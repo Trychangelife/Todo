@@ -45,7 +45,6 @@ public class BasicAuthFilter : IAsyncAuthorizationFilter
             Login = user.Login,
             UserRole = user.UserRole
         };
-
         // Добавление объекта AuthenticatedUser в контекст запроса
         context.HttpContext.Items["AuthenticatedUser"] = authenticatedUser;
     }

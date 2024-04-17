@@ -18,6 +18,7 @@ namespace Todo.Controllers
             _userService = userService;
         }
         // GET: User/{id}
+        // Эндпоинт только для SuperUser - по задумке обычным юзерам недоступен.
         [HttpGet("{id}")]
         [ServiceFilter(typeof(BasicAuthFilter))]
         [ServiceFilter(typeof(SuperAdminFilter))]
@@ -61,7 +62,8 @@ namespace Todo.Controllers
             }
             return BadRequest("Отправленные Вами данные не соответствуют ожидаемой модели");
         }
-
+        // PUT: User/{id}
+        // Эндпоинт только для SuperUser - по задумке обычным юзерам недоступен.
         [HttpPut("{id}")]
         [ServiceFilter(typeof(BasicAuthFilter))]
         [ServiceFilter(typeof(SuperAdminFilter))]
@@ -78,6 +80,8 @@ namespace Todo.Controllers
                 return NotFound(result.ErrorMessage);
             }
         }
+        // DELETE: User/{id}
+        // Эндпоинт только для SuperUser - по задумке обычным юзерам недоступен.
         [HttpDelete("{id}")]
         [ServiceFilter(typeof(BasicAuthFilter))]
         [ServiceFilter(typeof(SuperAdminFilter))]
